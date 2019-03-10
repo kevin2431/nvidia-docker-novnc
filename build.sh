@@ -19,7 +19,7 @@ echo "Creating the docker container."
 echo ""
 echo "********************************************************************************"
 
-docker build -t autonomous_sys autonomous_sys_build/
+docker build -t gnome gnome
 
 echo "********************************************************************************"
 echo ""
