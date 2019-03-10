@@ -19,7 +19,7 @@ echo "Creating the docker container."
 echo ""
 echo "********************************************************************************"
 
-docker build -t gnome gnome
+docker build -t gui_lab gui_lab
 
 echo "********************************************************************************"
 echo ""

@@ -25,7 +25,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
         libglu1:i386 \
         libxv1 \
         libxv1:i386 \
-	ubuntu-gnome-desktop gnome-settings-daemon gnome-panel metacity xvfb xterm terminator zenity mesa-utils \
+	lubuntu-desktop xvfb xterm terminator zenity mesa-utils \
         make cmake \
         python \
         python-numpy \
@@ -80,7 +80,7 @@ COPY ./self.pem /root/self.pem
 RUN perl -pi -e 's/^Exec=terminator$/Exec=terminator -e "vglrun bash"/g' /usr/share/applications/terminator.desktop
 
 # Install udacity desktop background (YMMV)
-#COPY ./background.png /usr/share/lubuntu/wallpapers/1604-lubuntu-default-wallpaper.png
+COPY ./background.png /usr/share/lubuntu/wallpapers/1604-lubuntu-default-wallpaper.png
 
 RUN mkdir -p /root/.vnc
 COPY ./xstartup.turbovnc /root/.vnc/xstartup.turbovnc
