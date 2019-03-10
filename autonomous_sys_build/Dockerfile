@@ -44,12 +44,6 @@ RUN cd /tmp && \
     rm -f /tmp/*.deb && \
     sed -i 's/$host:/unix:/g' /opt/TurboVNC/bin/vncserver
 
-# Install miniconda
-RUN cd /tmp && \
-    curl -fsSL -O https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-    chmod u+x Miniconda3-latest-Linux-x86_64.sh && \
-    ./Miniconda3-latest-Linux-x86_64.sh -b
-
 ENV PATH ${PATH}:/opt/VirtualGL/bin:/opt/TurboVNC/bin
 
 RUN curl -fsSL https://github.com/novnc/noVNC/archive/v${NOVNC_VERSION}.tar.gz | tar -xzf - -C /opt && \
@@ -92,40 +86,6 @@ RUN mkdir -p /root/.vnc
 COPY ./xstartup.turbovnc /root/.vnc/xstartup.turbovnc
 RUN chmod a+x /root/.vnc/xstartup.turbovnc
 
-# Install ROS
-RUN echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > \
-    /etc/apt/sources.list.d/ros-latest.list && \
-    apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116 && \
-    apt-get update -y && \
-    apt-get install -y ros-kinetic-desktop-full && \
-    apt-get install -y ros-kinetic-navigation && \
-    apt-get install -y ros-kinetic-roscpp && \
-    apt-get install -y ros-kinetic-joy && \
-    apt-get install -y ros-kinetic-kobuki-safety-controller && \
-    apt-get install -y ros-kinetic-yocs-velocity-smoother && \
-    apt-get install -y ros-kinetic-turtlebot-bringup && \
-    apt-get install -y ros-kinetic-geometry-msgs && \
-    apt-get install -y ros-kinetic-yocs-cmd-vel-mux && \
-    apt-get install -y ros-kinetic-diagnostic-aggregator && \
-    apt-get install -y ros-kinetic-depthimage-to-laserscan && \
-    apt-get install -y ros-kinetic-gazebo-ros && \
-    apt-get install -y ros-kinetic-kobuki-gazebo-plugins && \
-    apt-get install -y ros-kinetic-robot-pose-ekf && \
-    apt-get install -y ros-kinetic-robot-state-publisher && \
-    apt-get install -y ros-kinetic-turtlebot-description && \
-    apt-get install -y ros-kinetic-turtlebot-navigation && \
-    apt-get install -y ros-kinetic-xacro && \
-    rosdep init && \
-    rosdep update && \
-    echo "source /opt/ros/kinetic/setup.bash" >> /root/.bashrc
-
-# Upgrade gazebo to gazebo v7
-RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-RUN wget http://packages.osrfoundation.org/gazebo.key -O - | apt-key add -
-RUN apt-get update -y && apt-get install -y gazebo7
-
-# Add miniconda to root's PATH
-RUN echo "export PATH=/root/miniconda3:$PATH" >> /root/.bashrc
 
 # Create some useful default aliases
 RUN printf "%s\n" \
